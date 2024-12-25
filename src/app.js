@@ -3,9 +3,9 @@ const app = express();
 
 // Request Handlers
 // Home route
-app.use((req, res) => {
-  res.send("Hello from home page");
-});
+// app.use((req, res) => {
+//   res.send("Hello from home page");
+// });
 
 // build a specific route
 app.use("/test", (req, res) => {

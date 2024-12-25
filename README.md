@@ -4,3 +4,8 @@ DevTinder
 
 - npm init - generates package.json
 - src/app.js - starting point of application
+
+2. Routing and Request Handlers
+
+- order of writing the routes matter a lot
+- Take note of wild card match
