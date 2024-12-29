@@ -13,3 +13,12 @@ DevTinder
 3. Route Handlers
 
 - You can write the route handlers like app.route("/route",RH1,RH2,[RH3,RH4],RH5)
+
+4. Error Handling
+
+- to handle the errors gracefully without exposing any code -
+  app.use("/",(err,req,res,next)=>
+  {if(err){
+  res.status(500).send("Something went wrong")
+  }
+  })
