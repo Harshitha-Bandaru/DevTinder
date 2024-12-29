@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 
+const { adminAuth } = require("./middleware/auth");
+
 // Request Handlers
 // Home route
 // app.use((req, res) => {
@@ -60,6 +62,12 @@ app.get(
     next();
   }
 );
+
+app.use("/admin", adminAuth);
+
+app.get("/adminData", adminAuth, (req, res) => {
+  res.send("This is Admin Data");
+});
 
 // listen on a port
 app.listen(3000, () => {
