@@ -9,12 +9,11 @@ const { adminAuth } = require("./middleware/auth");
 //   res.send("Hello from home page");
 // });
 
-app.get("/getUserData", (req, res) => {
+app.get("/getUserData", (req, res, next) => {
   throw new Error("Error");
-  res.send("user data sent");
 });
 
-app.get("/", (err, req, res, next) => {
+app.use("/", (err, req, res, next) => {
   if (err) {
     res.status(500).send("Something went wrong");
   }
