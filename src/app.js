@@ -35,6 +35,32 @@ app.post("/postUser", (req, res) => {
   res.send(`${req.query.userName} data posted successfully`);
 });
 
+app.get(
+  "/getMe",
+  (req, res, next) => {
+    console.log("Hehe,i'm not here");
+    next();
+  },
+  (req, res) => {
+    res.send("Hihi, here");
+  }
+);
+
+app.get(
+  "/findMeForever",
+  (req, res, next) => {
+    console.log("Hehe,i'm not here");
+    next();
+  },
+  (req, res, next) => {
+    console.log("you can't find me forever");
+    // next();
+    console.log("i'll never see console");
+    // res.send("Hi");
+    next();
+  }
+);
+
 // listen on a port
 app.listen(3000, () => {
   console.log("Server Started Succcessfully");
