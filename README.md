@@ -22,3 +22,14 @@ DevTinder
   res.status(500).send("Something went wrong")
   }
   })
+
+5. Best Practice
+
+- You should connect to DB first and then listen on a port, that way, you can always make sure that database connection is established when users hit the api's
+
+6. connecting to db, schema, model
+
+- connect to db
+- define schema
+- define model
+- Convention : Model name should always with Capital letter indicating it's a model
