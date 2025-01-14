@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
 });
 
 // create a model
+// Convention - Snakecase for model name
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
