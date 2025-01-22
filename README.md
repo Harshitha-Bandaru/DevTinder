@@ -33,3 +33,13 @@ DevTinder
 - define schema
 - define model
 - Convention : Model name should always with Capital letter indicating it's a model
+
+7. Diving into APIs
+
+- If the casing doesn't match in the key, mongodb ignores it
+
+To Explore:
+
+- difference between JSON and javascript object
+- objectId, **v** in mongodb
+- express.json - middleware
