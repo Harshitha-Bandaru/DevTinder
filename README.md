@@ -37,9 +37,11 @@ DevTinder
 7. Diving into APIs
 
 - If the casing doesn't match in the key, mongodb ignores it
+- If you pass a key that is non-existent in schema, MongoDB ignores it
 
 To Explore:
 
 - difference between JSON and javascript object
 - objectId, **v** in mongodb
 - express.json - middleware
+- difference between PATCH and PUT

@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const connectDB = require("./config/database");
 const User = require("./models/user");
+const { ReturnDocument } = require("mongodb");
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
@@ -37,6 +38,40 @@ app.get("/user", async (req, res) => {
     res.send(userdetails);
   } else {
     res.status(404).send("user not found");
+  }
+});
+
+app.patch("/user", async (req, res) => {
+  try {
+    const emailId = req.body.emailId;
+    const data = req.body;
+    const user = await User.findOneAndUpdate({ emailId: emailId }, data, {
+      returnDocument: "before",
+    });
+    console.log("user", user);
+    if (user) {
+      res.send("User details updated successfully");
+    } else {
+      res.status(404).send("user not found");
+    }
+  } catch (err) {
+    console.log("Error updating user", err);
+    res.status(500).send("something went wrong");
+  }
+});
+
+app.delete("/user", async (req, res) => {
+  try {
+    const emailId = req.body.emailId;
+    const user = await User.findOneAndDelete({ emailId: emailId });
+    if (user) {
+      res.send("User deleted successfully");
+    } else {
+      res.status(404).send("user not found");
+    }
+  } catch (err) {
+    console.log("Error deleting user", err);
+    res.status(500).send("something went wrong");
   }
 });
 
