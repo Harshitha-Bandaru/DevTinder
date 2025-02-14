@@ -45,3 +45,31 @@ To Explore:
 - objectId, **v** in mongodb
 - express.json - middleware
 - difference between PATCH and PUT
+
+8. Data Sanitization and Schema Validations
+
+- NEVER TRUST req.body
+
+- Explore schema type options from the documentaion
+- add required, unique, lowercase, min, minlength, trim
+- add default
+- create a custom validation function for gender
+- add timestamps
+- add api level validations for PATCH, Signup POST API
+- Data Sanitization : add api validation for each field
+- Explore validator and use the functions - password, url, email etc.
+
+9. Encrypting Passwords
+
+- Validate data in Signup after receiving - helper function
+- Install bcrypt
+- create a pash using bcrypt.hash
+- write login api, compare hash
+- just sat invalid credentials, never expose your DB
+
+10. JWT, cookies, authentication
+
+- jsonwebtoken lib to generate, sign
+- cookie parser to parse coookies
+
+

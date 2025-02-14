@@ -3,6 +3,7 @@ const app = express();
 const connectDB = require("./config/database");
 const User = require("./models/user");
 const { ReturnDocument } = require("mongodb");
+const bcrypt = require("bcrypt");
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
@@ -15,15 +16,39 @@ app.post("/signup", async (req, res) => {
   //   password: "Harshi",
   // };
   // you have to add express.json middleware for the below line to work, as express can't decode json by default
-  const userObj = req.body;
-  console.log("userObj", userObj);
+  const { firstName, lastName, emailId, password, gender } = req.body;
+  const passwordHash = await bcrypt.hash(password, 10);
   // creating new instance of User model
-  const userInstance = new User(userObj);
+  const userInstance = new User({
+    firstName,
+    lastName,
+    emailId,
+    gender,
+    password: passwordHash,
+  });
   try {
     await userInstance.save();
     res.send("user details saved successfully");
   } catch (err) {
-    res.status(400).send("Error saving user", err.message);
+    res.status(400).send(`Error saving user: ${err.message}`);
+  }
+});
+
+app.post("/login", async (req, res) => {
+  try {
+    const { emailId, password } = req.body;
+    const user = await User.findOne({ emailId });
+    if (!user) {
+      throw new Error("User not found");
+    }
+    const isPassswordValid = await bcrypt.compare(password, user.password);
+    if (isPassswordValid) {
+      res.send(user);
+    } else {
+      throw new Error("Invalid Credentials");
+    }
+  } catch (err) {
+    res.status(400).send("Error: " + err.message);
   }
 });
 
