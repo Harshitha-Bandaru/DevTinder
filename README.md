@@ -72,4 +72,4 @@ To Explore:
 - jsonwebtoken lib to generate, sign
 - cookie parser to parse coookies
 
-
+To explore: this in arrow functions, normal functions

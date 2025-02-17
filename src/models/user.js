@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 // Define Schema
 const userSchema = new mongoose.Schema(
@@ -65,6 +67,28 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+userSchema.methods.validatePassword = async function (passwordInputByUser) {
+  // Do not write arrow function for this, the behavior of this will vary highly in arrow functions and normal functions
+  const user = this;
+  const isPasswordValid = await bcrypt.compare(
+    passwordInputByUser,
+    user.password
+  );
+  return isPasswordValid;
+};
+
+userSchema.methods.getJWT = async function () {
+  const user = this;
+  const token = await jwt.sign(
+    {
+      email: user.emailId,
+    },
+    "Harshi@123",
+    { expiresIn: "1h" }
+  );
+  return token;
+};
 
 // create a model
 // Convention - Snakecase for model name

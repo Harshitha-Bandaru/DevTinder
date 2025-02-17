@@ -2,11 +2,9 @@ const express = require("express");
 const app = express();
 const connectDB = require("./config/database");
 const User = require("./models/user");
-const { ReturnDocument } = require("mongodb");
-const bcrypt = require("bcrypt");
+const { userAuth } = require("./middleware/auth");
 const cookieParser = require("cookie-parser");
-const jwt = require("jsonwebtoken");
-
+const bcrypt = require("bcrypt");
 app.use(express.json());
 app.use(cookieParser());
 
@@ -45,15 +43,9 @@ app.post("/login", async (req, res) => {
     if (!user) {
       throw new Error("User not found");
     }
-    const isPassswordValid = await bcrypt.compare(password, user.password);
+    const isPassswordValid = await user.validatePassword(password);
     if (isPassswordValid) {
-      const token = await jwt.sign(
-        {
-          email: emailId,
-        },
-        "Harshi@123",
-        { expiresIn: "1h" }
-      );
+      const token = await user.getJWT();
       res.cookie("token", token);
       res.send("Login Successful!");
     } else {
@@ -64,19 +56,9 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/profile", async (req, res) => {
+app.get("/profile", userAuth, async (req, res) => {
   try {
-    const token = req.cookies.token;
-    if (!token) {
-      throw new Error("Invalid token");
-    }
-    const decoded = await jwt.verify(token, "Harshi@123");
-    console.log(decoded.email);
-    const email = decoded.email;
-    const user = await User.findOne({ emailId: email });
-    if (!user) {
-      throw new Error("User does not exist");
-    }
+    const user = req.user;
     res.send(user);
   } catch (err) {
     res.status(400).send("Error: " + err.message);
