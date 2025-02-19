@@ -55,6 +55,22 @@ const userSchema = new mongoose.Schema(
         }
       },
     },
+    hobbies: {
+      type: [String],
+      validate(v) {
+        if (v.length > 100) {
+          throw new Error("Maximum number of skills cannot exceed 100");
+        }
+      },
+    },
+    about: {
+      type: String,
+      validate(v) {
+        if (v.length > 100) {
+          throw new Error("About can not exceed 100 characters");
+        }
+      },
+    },
     photoUrl: {
       type: String,
       default: "https://avatars.githubusercontent.com/u/45827542?s=96&v=4",

@@ -13,7 +13,8 @@ authRouter.post("/signup", async (req, res) => {
   //   password: "Harshi",
   // };
   // you have to add express.json middleware for the below line to work, as express can't decode json by default
-  const { firstName, lastName, emailId, password, gender } = req.body;
+  const { firstName, lastName, emailId, password, gender, hobbies, about } =
+    req.body;
   const passwordHash = await bcrypt.hash(password, 10);
   // creating new instance of User model
   const userInstance = new User({
@@ -22,6 +23,8 @@ authRouter.post("/signup", async (req, res) => {
     emailId,
     gender,
     password: passwordHash,
+    hobbies,
+    about,
   });
   try {
     await userInstance.save();
