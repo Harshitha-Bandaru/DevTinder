@@ -74,3 +74,9 @@ To Explore:
 
 To explore: this in arrow functions, normal functions
 token expiry, cookie expiry
+why not dot notation below?
+Object.keys(req.body).forEach(
+(value) => (loggedInUser[value] = req.body[value])
+);
+
+cookies are still valid after changing password?

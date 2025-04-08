@@ -1,8 +1,7 @@
 const express = require("express");
 const authRouter = express.Router();
 const User = require("../models/user");
-const bcrypt = require("bcrypt");
-
+const { generateHash } = require("../utils/validateData");
 authRouter.post("/signup", async (req, res) => {
   // const userObj = {
   //   firstName: "Harshitha",
@@ -15,7 +14,7 @@ authRouter.post("/signup", async (req, res) => {
   // you have to add express.json middleware for the below line to work, as express can't decode json by default
   const { firstName, lastName, emailId, password, gender, hobbies, about } =
     req.body;
-  const passwordHash = await bcrypt.hash(password, 10);
+  const passwordHash = await generateHash(password);
   // creating new instance of User model
   const userInstance = new User({
     firstName,
