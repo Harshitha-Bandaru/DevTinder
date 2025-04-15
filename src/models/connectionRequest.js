@@ -20,6 +20,17 @@ const connectionRequestSchema = new mongoose.Schema(
   }
 );
 
+connectionRequestSchema.pre("save", function (next) {
+  const connectionRequest = this;
+  console.log("this", this);
+  if (connectionRequest.fromId.equals(connectionRequest.toId)) {
+    throw new Error("Cannot send connection request to themselves!");
+  }
+  next();
+});
+
+connectionRequestSchema.index({ fromId: 1, toId: 1 });
+
 const ConnectionRequest = mongoose.model(
   "ConnectionRequest",
   connectionRequestSchema

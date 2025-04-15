@@ -15,9 +15,9 @@ connectionRequestRouter.post(
       console.log("fromid", fromId);
       console.log("toid", toId);
       // check if user is sending connection request to themselves
-      if (fromId === toId) {
-        res.json({ message: `Cannot send connecetion request to themselves` });
-      }
+      // if (fromId == toId) {
+      //   res.json({ message: `Cannot send connecetion request to themselves` });
+      // }
       // check if the receipient exists
       const toUser = await User.findById(toId);
       if (!toUser) {
@@ -27,6 +27,21 @@ connectionRequestRouter.post(
       if (!allowedStaus.includes(status)) {
         res.json({ message: "status not allowed" });
       }
+      const existingConnectionRequest = await ConnectionRequest.findOne({
+        $or: [
+          { fromId, toId },
+          { fromId: toId, toId: fromId },
+        ],
+      });
+      if (existingConnectionRequest) {
+        res.json({ message: "Connection Request already exists!" });
+      }
+      const connectionRequest = new ConnectionRequest({
+        fromId,
+        toId,
+        status,
+      });
+      await connectionRequest.save();
     } catch (err) {
       res.json({ message: `${err.message}` });
     }
