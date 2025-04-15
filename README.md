@@ -83,6 +83,7 @@ cookies are still valid after changing password?
 
 12. Compound index
     pre save
+    equals for objects
     explore equals incase of objectid prefix, no prefix
     $or query - existing conn req
     inverse queries

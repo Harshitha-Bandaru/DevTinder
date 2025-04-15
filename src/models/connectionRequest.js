@@ -24,7 +24,7 @@ connectionRequestSchema.pre("save", function (next) {
   const connectionRequest = this;
   console.log("this", this);
   if (connectionRequest.fromId.equals(connectionRequest.toId)) {
-    throw new Error("Cannot send connection request to themselves!");
+    return next(new Error("Cannot send connection request to themselves!"));
   }
   next();
 });

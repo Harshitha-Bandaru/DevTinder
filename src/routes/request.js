@@ -21,11 +21,13 @@ connectionRequestRouter.post(
       // check if the receipient exists
       const toUser = await User.findById(toId);
       if (!toUser) {
-        res.json({ message: "Receipent Profile doesn't exist" });
+        return res
+          .status(400)
+          .json({ message: "Receipent Profile doesn't exist" });
       }
       const allowedStaus = ["ignored", "interested"];
       if (!allowedStaus.includes(status)) {
-        res.json({ message: "status not allowed" });
+        return res.status(400).json({ message: "status not allowed" });
       }
       const existingConnectionRequest = await ConnectionRequest.findOne({
         $or: [
@@ -34,7 +36,9 @@ connectionRequestRouter.post(
         ],
       });
       if (existingConnectionRequest) {
-        res.json({ message: "Connection Request already exists!" });
+        return res
+          .status(400)
+          .json({ message: "Connection Request already exists!" });
       }
       const connectionRequest = new ConnectionRequest({
         fromId,
@@ -42,6 +46,7 @@ connectionRequestRouter.post(
         status,
       });
       await connectionRequest.save();
+      res.json({ message: "Connection Request Successful!" });
     } catch (err) {
       res.json({ message: `${err.message}` });
     }
