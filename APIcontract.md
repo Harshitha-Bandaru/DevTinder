@@ -20,3 +20,8 @@
 - GET /user/connections
 - GET /user/requests
 - GET /user/feed
+
+skip,limit:
+page=1, limit=10 - 1 to 10
+page=2, limit=10 - 11 to 20
+page=3, limit=10 - 20 to 30

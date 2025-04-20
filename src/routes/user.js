@@ -57,6 +57,10 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
 userRouter.get("/user/feed", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
+    const page = req.query.page || 1;
+    let limit = req.query.limit || 10;
+    limit = limit > 50 ? 50 : limit;
+    const skip_val = (page - 1) * limit;
     // A user should not see
     // 1. His own profile card
     // 2. His connections
@@ -69,13 +73,16 @@ userRouter.get("/user/feed", userAuth, async (req, res) => {
       uniqueConnections.add(connection.fromId.toString());
       uniqueConnections.add(connection.toId.toString());
     });
-    console.log("uniqueConnections", uniqueConnections);
+    // console.log("uniqueConnections", uniqueConnections);
     const userFeed = await User.find({
       $and: [
         { _id: { $nin: Array.from(uniqueConnections) } },
         { _id: { $ne: loggedInUser._id } },
       ],
-    }).select(USER_SAFE_DATA);
+    })
+      .select(USER_SAFE_DATA)
+      .skip(skip_val)
+      .limit(limit);
     res.json({ data: userFeed });
   } catch (err) {
     res.status(400).json({ message: err.message });
