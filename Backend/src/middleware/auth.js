@@ -8,7 +8,7 @@ const userAuth = async (req, res, next) => {
       return res.status(401).send("Please Login!");
     }
     const decoded = await jwt.verify(token, "Harshi@123");
-    console.log(decoded.email);
+    // console.log(decoded.email);
     const email = decoded.email;
     const user = await User.findOne({ emailId: email });
     if (!user) {
