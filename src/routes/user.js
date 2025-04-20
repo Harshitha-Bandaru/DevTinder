@@ -54,4 +54,32 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
   }
 });
 
+userRouter.get("/user/feed", userAuth, async (req, res) => {
+  try {
+    const loggedInUser = req.user;
+    // A user should not see
+    // 1. His own profile card
+    // 2. His connections
+    // 3. Pending / Ignored connections
+    const existingConnections = await ConnectionRequest.find({
+      $or: [{ fromId: loggedInUser._id }, { toId: loggedInUser._id }],
+    });
+    const uniqueConnections = new Set();
+    existingConnections.forEach((connection) => {
+      uniqueConnections.add(connection.fromId.toString());
+      uniqueConnections.add(connection.toId.toString());
+    });
+    console.log("uniqueConnections", uniqueConnections);
+    const userFeed = await User.find({
+      $and: [
+        { _id: { $nin: Array.from(uniqueConnections) } },
+        { _id: { $ne: loggedInUser._id } },
+      ],
+    }).select(USER_SAFE_DATA);
+    res.json({ data: userFeed });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
 module.exports = userRouter;
