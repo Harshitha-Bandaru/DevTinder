@@ -1,0 +1,8 @@
+- Create a vite+react application
+- remove unnecessary code and create a hello world app
+- install tailwind css
+- install daisy ui
+- add navbar component to App.jsx
+- install react router dom
+- use BrowserRouter component
+- create basic layout - header, outlet, footer
