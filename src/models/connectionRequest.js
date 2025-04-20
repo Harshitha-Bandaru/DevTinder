@@ -5,8 +5,9 @@ const connectionRequestSchema = new mongoose.Schema(
     fromId: {
       type: mongoose.ObjectId,
       required: true,
+      ref: "User",
     },
-    toId: { type: mongoose.ObjectId, required: true },
+    toId: { type: mongoose.ObjectId, required: true, ref: "User" },
     status: {
       type: String,
       enum: {
