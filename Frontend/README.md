@@ -6,3 +6,8 @@
 - install react router dom
 - use BrowserRouter component
 - create basic layout - header, outlet, footer
+
+Learnings:
+
+- Axios won't let you set cookies in http or when domain is not same
+- credentials:true is required both in frontend, backend to enable send/receive cookies in browser
