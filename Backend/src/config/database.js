@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 
-const CLUSTER_STRING =
-  "mongodb+srv://harshitha4547:IuxBu0X5om3J4r3a@node.jjywt.mongodb.net/";
-const DATABASE_STRING = "devTinder";
+const CLUSTER_STRING = process.env.MONGO_CONNECTION_STRING;
+const DATABASE_STRING = process.env.DATABASE_NAME;
 // const connectDB = mongoose.connect(CLUSTER_STRING);
 
 const connectDB = async () => {
