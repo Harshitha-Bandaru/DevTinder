@@ -7,6 +7,15 @@
 - use BrowserRouter component
 - create basic layout - header, outlet, footer
 
+setup redux:
+install redux toolkit
+configure store
+provider
+create slice - export default reducer, named actions
+add reducer to store
+
+add data to redux store - dispatch an actoion
+
 Learnings:
 
 - Axios won't let you set cookies in http or when domain is not same
